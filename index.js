@@ -41,7 +41,7 @@ function loopFn() {
 
     rssApi.getFeed('https://tenzhiyang.com/rss.xml').then(data => {
         console.log(cachedData.blogRss && +new Date(cachedData.blogRss.lastBuildDate), +new Date(data.lastBuildDate))
-        if (cachedData.blogRss && +new Date(cachedData.blogRss.lastBuildDate) > +new Date(data.lastBuildDate)) {
+        if (cachedData.blogRss && +new Date(cachedData.blogRss.lastBuildDate) < +new Date(data.lastBuildDate)) {
             const newPost = data.items.filter(item => -1 === cachedData.blogRss.items.findIndex(cacheItem => cacheItem.guid === item.guid))
             console.log(newPost);
             for (let i=0; i< newPost.length; i++) {
