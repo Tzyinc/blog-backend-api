@@ -28,7 +28,7 @@ app.get(endpoints.blogRss, function (req, res) {
     res.send(cachedData.blogRss)
 })
 loopFn();
-setInterval(loopFn, 6 * 1000);
+setInterval(loopFn, 60 * 1000);
 
 function loopFn() {
     tweetApi.getTweets().then(
