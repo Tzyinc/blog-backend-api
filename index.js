@@ -28,7 +28,7 @@ app.get(endpoints.blogRss, function (req, res) {
     res.send(cachedData.blogRss)
 })
 loopFn();
-setInterval(loopFn, 60 * 1000);
+setInterval(loopFn, 5 * 60 * 1000);
 
 function loopFn() {
     tweetApi.getTweets().then(
@@ -40,12 +40,11 @@ function loopFn() {
         });
 
     rssApi.getFeed('https://tenzhiyang.com/rss.xml').then(data => {
-        console.log(cachedData.blogRss && +new Date(cachedData.blogRss.lastBuildDate), +new Date(data.lastBuildDate))
         if (cachedData.blogRss && +new Date(cachedData.blogRss.lastBuildDate) < +new Date(data.lastBuildDate)) {
             const newPost = data.items.filter(item => -1 === cachedData.blogRss.items.findIndex(cacheItem => cacheItem.guid === item.guid))
-            console.log(newPost);
+
             for (let i=0; i< newPost.length; i++) {
-                tweetApi.postTweet(`I wrote a new blog post! Read it at ${newPost[i].link}`)
+                tweetApi.postTweet(`I wrote a new blog post: ${newPost[i].title}! Read it here: ${newPost[i].link}`)
             }
         }
         cachedData.blogRss = data;
