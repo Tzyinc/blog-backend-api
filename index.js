@@ -63,7 +63,7 @@ function loopFn() {
 }
 
 function fetchWuhanCNA() {
-    fetch('https://data.24liveplus.com/v1/retrieve_server/x/event/2441056855163817172/news/?inverted_order=0&last_nid=&limit=100&origin=https%253A%252F%252Fwww.channelnewsasia.com').then(data => {
+    fetch('https://data.24liveplus.com/v1/retrieve_server/x/event/2441056855163817172/news/?inverted_order=1&last_nid=&limit=50&origin=https%253A%252F%252Fwww.channelnewsasia.com').then(data => {
         return data.json();
     }).then(jsonData => {
         cachedData.wuhanCNA = jsonData;
