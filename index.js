@@ -12,7 +12,8 @@ app.use(cors());
 
 const endpoints = {
     tweets: '/tweets',
-    blogRss: '/blogRss'
+    blogRss: '/blogRss',
+    wuhanCNA: '/wuhanCNA'
 }
 
 app.get('/', function (req, res) {
@@ -26,6 +27,11 @@ app.get(endpoints.tweets, function (req, res) {
 
 app.get(endpoints.blogRss, function (req, res) {
     res.send(cachedData.blogRss)
+})
+
+
+app.get(endpoints.wuhanCNA, function (req, res) {
+    res.send(cachedData.wuhanCNA)
 })
 loopFn();
 setInterval(loopFn, 5 * 60 * 1000);
@@ -51,7 +57,17 @@ function loopFn() {
     }).catch(error => {
         console.error(error);
     });
+
+    fetchWuhanCNA();
     cachedData.lastFetched = new Date();
+}
+
+function fetchWuhanCNA() {
+    fetch('https://data.24liveplus.com/v1/retrieve_server/x/event/2441056855163817172/news/?inverted_order=0&last_nid=&limit=100&origin=https%253A%252F%252Fwww.channelnewsasia.com').then(data => {
+        return data.json();
+    }).then(jsonData => {
+        cachedData.wuhanCNA = jsonData;
+    });
 }
 
 app.listen(port);
