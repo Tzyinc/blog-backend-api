@@ -78,7 +78,7 @@ function fetchWuhanCNA() {
             updatedDate = Math.max(updatedDate, news.created);
         }
         cachedData.wuhanCNA = jsonData;
-        cachedData[endpoints.wuhanUpdated] = updatedDate;
+        cachedData[endpoints.wuhanUpdated] = {date: updatedDate};
     });
 }
 
