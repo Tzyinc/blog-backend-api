@@ -77,7 +77,7 @@ function loopFn() {
 }
 
 function tweetQOTD(today) {
-    if (today.getHours() === 14 && today.getMinutes() >= 15 && today.getMinutes() < 20 && cachedData.quotes) {
+    if (today.getHours() === 14 && today.getMinutes() >= 20 && today.getMinutes() < 25 && cachedData.quotes) {
         let todayQuote = cachedData.quotes.find(item => {
             let quoteDate = new Date(item.date)
             return getDate(quoteDate) === getDate(today);
@@ -89,7 +89,7 @@ function tweetQOTD(today) {
         console.log('fail inside')
     }
 
-    console.log('fail outside')
+    console.log('fail outside', today.getHours(), today.getMinutes(), !!cachedData.quotes)
 
 }
 
