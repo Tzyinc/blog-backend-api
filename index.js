@@ -10,35 +10,40 @@ const port = 1010;
 
 app.use(cors());
 
+// key must be same as cachedData, value is url
 const endpoints = {
     tweets: 'tweets',
     blogRss: 'blogRss',
     wuhanCNA: 'wuhanCNA',
     wuhanUpdated: 'wuhanUpdated',
+    quotes: 'quotes',
 }
 
 app.get('/', function (req, res) {
     res.send(endpoints)
 })
 
-app.get('/' + endpoints.tweets, function (req, res) {
-    res.send(cachedData.tweets)
+
+Object.keys(endpoints).forEach(function (key) {
+    // console.table('Key : ' + key + ', Value : ' + data[key])
+    app.get('/' + endpoints[key], function (req, res) {
+        res.send(cachedData[key])
+    })
+    // app.get('/' + endpoints.blogRss, function (req, res) {
+    //     res.send(cachedData.blogRss)
+    // })
+
+
+    // app.get('/' + endpoints.wuhanCNA, function (req, res) {
+    //     res.send(cachedData.wuhanCNA)
+    // })
+
+
+    // app.get('/' + endpoints.wuhanUpdated, function (req, res) {
+    //     res.send(cachedData.wuhanUpdated)
+    // })
 })
 
-
-app.get('/' + endpoints.blogRss, function (req, res) {
-    res.send(cachedData.blogRss)
-})
-
-
-app.get('/' + endpoints.wuhanCNA, function (req, res) {
-    res.send(cachedData.wuhanCNA)
-})
-
-
-app.get('/' + endpoints.wuhanUpdated, function (req, res) {
-    res.send(cachedData.wuhanUpdated)
-})
 loopFn();
 setInterval(loopFn, 5 * 60 * 1000);
 
@@ -65,6 +70,7 @@ function loopFn() {
     });
 
     fetchWuhanCNA();
+    fetchQuotes();
     cachedData.lastFetched = new Date();
 }
 
@@ -79,6 +85,14 @@ function fetchWuhanCNA() {
         }
         cachedData.wuhanCNA = jsonData;
         cachedData[endpoints.wuhanUpdated] = {date: updatedDate};
+    });
+}
+
+function fetchQuotes() {
+    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTiY7YebipddEZfFGbuJZyLKHihqgCQl79yT4-3CH4A5sw7WzcrS-1HAe5cRP9JvfOiVK1lIl4SEPBc/pub?output=tsv&gid=67876643&output=tsv&single=true&range=A1').then(data => {
+        return data.json();
+    }).then(jsonData => {
+        cachedData.quotes = jsonData;
     });
 }
 
