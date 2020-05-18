@@ -78,20 +78,16 @@ function loopFn() {
 
 function tweetQOTD(today) {
     // 6 is 2pm on server
-    if (today.getHours() === 6 && today.getMinutes() >= 25 && today.getMinutes() < 30 && cachedData.quotes) {
+    // date is off by one on server not going to fix
+    if (today.getHours() === 6 && today.getMinutes() >= 0 && today.getMinutes() < 5 && cachedData.quotes) {
         let todayQuote = cachedData.quotes.find(item => {
             let quoteDate = new Date(item.date)
             return getDate(quoteDate) === getDate(today);
         })
         if (todayQuote) {
-            console.log('tweeting', todayQuote);
             tweetApi.postTweet(todayQuote.quote);
         }
-        console.log('fail inside')
     }
-
-    console.log('fail outside', today.getHours(), today.getMinutes(), !!cachedData.quotes)
-
 }
 
 function getDate(today) {
