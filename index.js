@@ -77,15 +77,19 @@ function loopFn() {
 }
 
 function tweetQOTD(today) {
-    if (today.getHours() === 14 && today.getMinutes() >= 10 && today.getMinutes() < 15 && cachedData.quotes) {
+    if (today.getHours() === 14 && today.getMinutes() >= 15 && today.getMinutes() < 20 && cachedData.quotes) {
         let todayQuote = cachedData.quotes.find(item => {
             let quoteDate = new Date(item.date)
             return getDate(quoteDate) === getDate(today);
         })
         if (todayQuote) {
+            console.log('tweeting', todayQuote);
             tweetApi.postTweet(todayQuote.quote);
         }
+        console.log('fail inside')
     }
+
+    console.log('fail outside')
 
 }
 
