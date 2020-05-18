@@ -60,7 +60,7 @@ function loopFn() {
         if (cachedData.blogRss && +new Date(cachedData.blogRss.lastBuildDate) < +new Date(data.lastBuildDate)) {
             const newPost = data.items.filter(item => -1 === cachedData.blogRss.items.findIndex(cacheItem => cacheItem.guid === item.guid))
 
-            for (let i=0; i< newPost.length; i++) {
+            for (let i = 0; i < newPost.length; i++) {
                 tweetApi.postTweet(`I wrote a new blog post: ${newPost[i].title}! Read it here: ${newPost[i].link}`)
             }
         }
@@ -71,7 +71,27 @@ function loopFn() {
 
     fetchWuhanCNA();
     fetchQuotes();
-    cachedData.lastFetched = new Date();
+    let today = new Date();
+    tweetQOTD(today);
+    cachedData.lastFetched = today;
+}
+
+function tweetQOTD(today) {
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    if (time === "14:0:0" && cachedData.quotes) {
+        let todayQuote = cachedData.quotes.find(item => {
+            let quoteDate = new Date(item.date)
+            return getDate(quoteDate) === getDate(today);
+        })
+        if (todayQuote) {
+            tweetApi.postTweet(todayQuote.quote);
+        }
+    }
+
+}
+
+function getDate(today) {
+    return today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 }
 
 function fetchWuhanCNA() {
@@ -84,7 +104,7 @@ function fetchWuhanCNA() {
             updatedDate = Math.max(updatedDate, news.created);
         }
         cachedData.wuhanCNA = jsonData;
-        cachedData[endpoints.wuhanUpdated] = {date: updatedDate};
+        cachedData[endpoints.wuhanUpdated] = { date: updatedDate };
     });
 }
 
