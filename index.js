@@ -77,7 +77,7 @@ function loopFn() {
 }
 
 function tweetQOTD(today) {
-    console.log('date', getDate(today));
+    console.log('date', getDate(today), today.getHours(), today.getMinutes());
     // 6 is 2pm on server
     // date is off by one on server not going to fix
     if (today.getHours() === 14 && today.getMinutes() >= 30 && today.getMinutes() < 35 && cachedData.quotes) {
