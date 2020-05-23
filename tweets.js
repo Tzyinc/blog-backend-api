@@ -19,7 +19,9 @@ function getTweets(cachedData) {
 
 function postTweet(content) {
     client.post('statuses/update', { status: content }, function (error, tweet, response) {
-        if (error) throw error;
+        if (error) {
+            console.error(error);
+        }
     });
 }
 
