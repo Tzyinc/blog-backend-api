@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const cors = require('cors')
 const tweetApi = require('./tweets.js')
 const rssApi = require('./rss.js')
-const devToApi = requre('./devto.js')
+const devToApi = require('./devto.js')
 
 let cachedData = {};
 const port = 1010;
