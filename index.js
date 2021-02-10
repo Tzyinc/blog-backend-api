@@ -50,6 +50,7 @@ function loopFn() {
 
             for (let i = 0; i < newPost.length; i++) {
                 tweetApi.postTweet(`I wrote a new blog post: ${newPost[i].title}! Read it here: ${newPost[i].link}`)
+                devToApi.postBlog({ title: newPost[i].title, content: newPost[i]['content:raw'], tags: [], url: newPost[i].link, series: ''})
             }
         }
         cachedData.blogRss = data;
