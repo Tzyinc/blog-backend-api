@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const cors = require('cors')
 const tweetApi = require('./tweets.js')
 const rssApi = require('./rss.js')
+const devToApi = requre('./devto.js')
 
 let cachedData = {};
 const port = 1010;
@@ -29,19 +30,6 @@ Object.keys(endpoints).forEach(function (key) {
     app.get('/' + endpoints[key], function (req, res) {
         res.send(cachedData[key])
     })
-    // app.get('/' + endpoints.blogRss, function (req, res) {
-    //     res.send(cachedData.blogRss)
-    // })
-
-
-    // app.get('/' + endpoints.wuhanCNA, function (req, res) {
-    //     res.send(cachedData.wuhanCNA)
-    // })
-
-
-    // app.get('/' + endpoints.wuhanUpdated, function (req, res) {
-    //     res.send(cachedData.wuhanUpdated)
-    // })
 })
 
 loopFn();
