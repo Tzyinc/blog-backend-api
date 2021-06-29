@@ -5,6 +5,7 @@ const cors = require('cors')
 const tweetApi = require('./tweets.js')
 const rssApi = require('./rss.js')
 const devToApi = require('./devto.js')
+const previewLink = require('./linkPreview.js')
 
 let cachedData = {};
 const port = 1010;
@@ -22,6 +23,18 @@ const endpoints = {
 
 app.get('/', function (req, res) {
     res.send(endpoints)
+})
+
+app.get('/fetchPreview', function(req, res) {
+    (async function () {
+      let url = "https://www.youtube.com/watch?v=MejbOFk7H6c";
+      console.log(req.query)
+      if (req.query && req.query.url) {
+        url = req.query.url
+      }
+      const returnVal = await previewLink.previewLink({link:url});
+      res.send(returnVal)
+    })();
 })
 
 
@@ -105,5 +118,6 @@ function fetchQuotes() {
         cachedData.quotes = jsonData;
     });
 }
+
 
 app.listen(port);
